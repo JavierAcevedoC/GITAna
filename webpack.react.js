@@ -9,7 +9,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist/renderer.js'),
     compress: true,
-    port: 9000
+    port: 8000
   },
   resolve: {
     alias: {
