@@ -12,7 +12,7 @@ class GitManager {
     private async gitBaseMethod(gitQuery: string): Promise<Array<string>> {
         return new Promise((resolve, reject) => {
             
-            this.executor.execute(gitQuery, (buffer: any) => {
+            this.executor.execute(GitManager.BASE + gitQuery, (buffer: any) => {
                 if (!!buffer) {
                     resolve(String(buffer).split('\n').filter(b => b !== ''));
                 } else {
@@ -25,13 +25,11 @@ class GitManager {
     
     // JUST READ BUFFERS
     public async branch(): Promise<Array<string>> {
-        const gitQuery = GitManager.BASE + GitCommands.BRANCH;
-        return this.gitBaseMethod(gitQuery);
+        return this.gitBaseMethod(GitCommands.BRANCH);
     }
 
     public async pull(): Promise<Array<string>> {
-        const gitQuery = GitManager.BASE + GitCommands.PULL;
-        return this.gitBaseMethod(gitQuery);
+        return this.gitBaseMethod(GitCommands.PULL);
     }
 }
 
