@@ -18,9 +18,14 @@ class App extends Component<any ,IStateApp> {
     }
 
     private onRecieve(): void {
-        ipcRenderer.send('get-branchs', '');
+        this.setState({
+            branchs: ['nothing','yet']
+        });
+
+        ipcRenderer.send('get-branchs', '--all');
         ipcRenderer.on('return-branchs', (event: any, arg:Array<string> ) => {
 
+            console.dir(arg);
             this.setState({
                 branchs: arg
             });
@@ -29,6 +34,14 @@ class App extends Component<any ,IStateApp> {
         });
     }
 
+    public callPull(): void {
+        ipcRenderer.send('pull', '');
+        ipcRenderer.on('return-pull', (ev: any, arg: string | []) => {
+            console.dir(ev);
+            console.dir(arg);
+        });
+    }
+    
     public render(){
         const littleStyle = {
             color: 'white',
@@ -45,6 +58,8 @@ class App extends Component<any ,IStateApp> {
                     } 
                 </ul>
                 <h3>By Mr.Cthulhu</h3>
+                <button onClick={ () => this.onRecieve() }>call branchs</button>
+                <button onClick={ () => this.callPull() }>call pull</button>
             </div>
         );
     }

@@ -8,10 +8,10 @@ class GitManager {
     constructor() {
         this.executor = new Executor();
     }
-    
+
     private async gitBaseMethod(gitQuery: string): Promise<Array<string>> {
         return new Promise((resolve, reject) => {
-            
+
             this.executor.execute(GitManager.BASE + gitQuery, (buffer: any) => {
                 if (!!buffer) {
                     resolve(String(buffer).split('\n').filter(b => b !== ''));
@@ -22,10 +22,10 @@ class GitManager {
 
         });
     }
-    
+
     // JUST READ BUFFERS
     public async branch(): Promise<Array<string>> {
-        return this.gitBaseMethod(GitCommands.BRANCH);
+          return this.gitBaseMethod(GitCommands.BRANCH);
     }
 
     public async pull(): Promise<Array<string>> {

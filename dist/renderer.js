@@ -30053,14 +30053,40 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 //import 'app.scss'; // New import!!
+var electron_1 = __webpack_require__(/*! electron */ "electron");
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.onRecieve();
+        _this.state = {
+            branchs: []
+        };
+        return _this;
     }
+    App.prototype.onRecieve = function () {
+        var _this = this;
+        electron_1.ipcRenderer.send('get-branchs', '');
+        electron_1.ipcRenderer.on('return-branchs', function (event, arg) {
+            _this.setState({
+                branchs: arg
+            });
+            _this.render();
+        });
+    };
     App.prototype.render = function () {
-        return (react_1.default.createElement("div", { className: "app" },
-            react_1.default.createElement("h1", null, "I'm React running in Electron App!!")));
+        var littleStyle = {
+            color: 'white',
+        };
+        return (react_1.default.createElement("div", { style: littleStyle },
+            react_1.default.createElement("h1", null, "Branch of this project!"),
+            react_1.default.createElement("ul", null, this.state.branchs.map(function (branch, index) {
+                return react_1.default.createElement("li", { key: index },
+                    " ",
+                    branch,
+                    " ");
+            })),
+            react_1.default.createElement("h3", null, "By Mr.Cthulhu")));
     };
     return App;
 }(react_1.Component));
@@ -30085,6 +30111,16 @@ var react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "./node_m
 var app_1 = __importDefault(__webpack_require__(/*! @/app/app */ "./src/app/app.tsx"));
 react_dom_1.default.render(react_1.default.createElement(app_1.default, null), document.getElementById('root'));
 
+
+/***/ }),
+
+/***/ "electron":
+/*!***************************!*\
+  !*** external "electron" ***!
+  \***************************/
+/***/ ((module) => {
+
+module.exports = require("electron");;
 
 /***/ })
 
